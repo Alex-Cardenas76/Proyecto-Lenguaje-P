@@ -1,0 +1,133 @@
+Aquí tienes un **prompt listo**, claro y específico, para pedirle a otra IA que **genere el backend completo en C#**, usando la arquitectura y la documentación que ya definimos.
+
+Cópialo y pégalo tal cual:
+
+---
+
+# ✅ **PROMPT PARA GENERAR BACKEND EN C# (N-CAPAS + WPF + SQL SERVER)**
+
+Desarrolla el backend del sistema empresarial **Tech Solutions**, siguiendo estrictamente las indicaciones:
+
+## 🎯 Contexto del Sistema
+
+La empresa *Tech Solutions* comercializa productos tecnológicos. El sistema debe permitir:
+
+* Gestión de usuarios con roles
+* Gestión de clientes
+* Gestión de productos con categoría y proveedor
+* Registro de ventas y detalle de venta
+* Control de stock con movimientos (entrada, salida y ajuste)
+* Generación de reportes de ventas
+* Seguridad y mantenimiento de datos
+
+## 🏛 Arquitectura N-Capas (Obligatoria)
+
+Estructura de la solución en C#:
+
+```
+TechSolutions.sln
+│
+├── CapaEntidad          (Modelos / POCO)
+├── CapaAccesoDatos      (DAL, ADO.NET, SqlCommand)
+├── CapaNegocio          (BLL, Reglas de negocio)
+└── CapaPresentacion     (WPF)   ← No desarrollar UI, solo preparar BLL listo para UI
+```
+
+### Función de cada capa:
+
+* **CapaEntidad:** Solo modelos (clases con propiedades).
+* **CapaDatos:** Acceso a SQL Server, conexión Singleton, métodos CRUD.
+* **CapaNegocio:** Lógica de negocio, validaciones, control de transacciones.
+* **CapaPresentacion:** Será implementada luego en WPF (no generar todavía).
+
+## 🗄 Base de Datos (SQL Server)
+
+Debes basarte en este esquema:
+
+```
+Roles
+Usuarios
+Clientes
+Proveedores
+Categorias
+Productos
+TipoMovimiento
+TransaccionesStock
+Ventas
+DetalleVenta
+```
+
+### Conexión
+
+Usar **Singleton**:
+
+```csharp
+public sealed class ConexionBD
+{
+    private static readonly ConexionBD instancia = new ConexionBD();
+    public static ConexionBD Instancia => instancia;
+    private ConexionBD() {}
+    private readonly string cadenaConexion = "Data Source=.;Initial Catalog=TechSolutionsDB;Integrated Security=True";
+    public SqlConnection CrearConexion() => new SqlConnection(cadenaConexion);
+}
+```
+
+## 🔒 Seguridad
+
+* Las contraseñas deben almacenarse **con hash SHA-256** (no texto plano).
+* Incluir clase `PasswordHasher.cs`.
+
+## 🧠 Reglas de Negocio Importantes
+
+* Al registrar una venta:
+
+  * Validar stock
+  * Insertar venta y detalles
+  * Descontar stock por producto
+  * Registrar movimiento de stock en TransaccionesStock
+  * Todo dentro de una **transacción con commit/rollback**
+
+## 🏗 Lo que debes generar
+
+1. Todas las clases de **Entidad (POCO)**.
+2. Clase `ConexionBD.cs` con Singleton.
+3. Repositorios DAL:
+
+   * UsuarioDAL.cs
+   * ProductoDAL.cs
+   * ClienteDAL.cs
+   * VentaDAL.cs
+4. BLL correspondiente para cada repositorio.
+5. `PasswordHasher.cs` implementando SHA-256.
+6. Código comentado y limpio.
+7. Cada método debe estar documentado con **resumen XML**:
+
+```csharp
+/// <summary>
+/// Registra una nueva venta y descuenta stock.
+/// </summary>
+```
+
+## 🔍 Estilo del código
+
+* C# .NET 6+ o superior
+* Programación estructurada y clara
+* No usar Entity Framework, solo **ADO.NET** (`SqlConnection`, `SqlCommand`, `SqlDataReader`)
+* No usar servicios externos
+* No generar interfaz visual todavía
+
+---
+
+**Comienza generando primero la CapaEntidad completa.**
+
+Después, espera mi indicación para continuar con DAL → BLL.
+
+---
+
+# ✅ FIN DEL PROMPT
+
+---
+
+Cuando estés listo, dime:
+
+**¿Quieres que ahora generemos el prompt para que otra IA haga la capa de Presentación (WPF con Login y Panel Principal)?**
